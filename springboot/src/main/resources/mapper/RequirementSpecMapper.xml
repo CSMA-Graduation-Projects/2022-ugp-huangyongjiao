@@ -1,0 +1,85 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.RequirementSpecMapper">
+
+    <select id="selectAll" resultType="com.example.entity.RequirementSpec">
+        select
+        id,
+        requirement_name as requirementName,
+        module_name as moduleName,
+        requirement_content as requirementContent,
+        precondition_desc as preconditionDesc,
+        expected_desc as expectedDesc,
+        remark,
+        creator_id as creatorId,
+        creator_role as creatorRole,
+        manager_id as managerId,
+        create_time as createTime
+        from requirement_spec
+        <where>
+            <if test="requirementName != null and requirementName != ''">
+                and requirement_name like concat('%', #{requirementName}, '%')
+            </if>
+            <if test="moduleName != null and moduleName != ''">
+                and module_name like concat('%', #{moduleName}, '%')
+            </if>
+
+            <if test="currentUserRole == 'ADMIN'">
+                and (
+                (creator_role = 'ADMIN' and creator_id = #{currentUserId})
+                or (creator_role = 'USER' and manager_id = #{currentUserId})
+                )
+            </if>
+
+            <if test="currentUserRole == 'USER'">
+                and (
+                creator_role = 'USER'
+                and creator_id = #{currentUserId}
+                )
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.example.entity.RequirementSpec">
+        select
+            id,
+            requirement_name as requirementName,
+            module_name as moduleName,
+            requirement_content as requirementContent,
+            precondition_desc as preconditionDesc,
+            expected_desc as expectedDesc,
+            remark,
+            creator_id as creatorId,
+            creator_role as creatorRole,
+            manager_id as managerId,
+            create_time as createTime
+        from requirement_spec
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.RequirementSpec" useGeneratedKeys="true" keyProperty="id">
+        insert into requirement_spec
+        (requirement_name, module_name, requirement_content, precondition_desc, expected_desc, remark, creator_id, creator_role, manager_id)
+        values
+            (#{requirementName}, #{moduleName}, #{requirementContent}, #{preconditionDesc}, #{expectedDesc}, #{remark}, #{creatorId}, #{creatorRole}, #{managerId})
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.RequirementSpec">
+        update requirement_spec
+        set
+            requirement_name = #{requirementName},
+            module_name = #{moduleName},
+            requirement_content = #{requirementContent},
+            precondition_desc = #{preconditionDesc},
+            expected_desc = #{expectedDesc},
+            remark = #{remark}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from requirement_spec where id = #{id}
+    </delete>
+
+</mapper>

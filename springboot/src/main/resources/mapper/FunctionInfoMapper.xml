@@ -1,0 +1,145 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.FunctionInfoMapper">
+
+    <select id="selectAll" resultType="com.example.entity.FunctionInfo">
+        select
+        id,
+        function_name as functionName,
+        class_name as className,
+        language,
+        code_text as codeText,
+        input_desc as inputDesc,
+        output_desc as outputDesc,
+        remark,
+        tester_case_count as testerCaseCount,
+        public_test_content as publicTestContent,
+        public_test_source as publicTestSource,
+        public_assert_count as publicAssertCount,
+        creator_id as creatorId,
+        creator_role as creatorRole,
+        manager_id as managerId,
+        create_time as createTime
+        from function_info
+        <where>
+            <if test="functionName != null and functionName != ''">
+                and function_name like concat('%', #{functionName}, '%')
+            </if>
+            <if test="className != null and className != ''">
+                and class_name like concat('%', #{className}, '%')
+            </if>
+            <if test="language != null and language != ''">
+                and language = #{language}
+            </if>
+
+            <if test="currentUserRole == 'ADMIN'">
+                and (
+                (creator_role = 'ADMIN' and creator_id = #{currentUserId})
+                or (creator_role = 'USER' and manager_id = #{currentUserId})
+                )
+            </if>
+
+            <if test="currentUserRole == 'USER'">
+                and (
+                creator_role = 'USER'
+                and creator_id = #{currentUserId}
+                )
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.example.entity.FunctionInfo">
+        select
+            id,
+            function_name as functionName,
+            class_name as className,
+            language,
+            code_text as codeText,
+            input_desc as inputDesc,
+            output_desc as outputDesc,
+            remark,
+            tester_case_count as testerCaseCount,
+            public_test_content as publicTestContent,
+            public_test_source as publicTestSource,
+            public_assert_count as publicAssertCount,
+            creator_id as creatorId,
+            creator_role as creatorRole,
+            manager_id as managerId,
+            create_time as createTime
+        from function_info
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.FunctionInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into function_info
+        (function_name, class_name, code_text, input_desc, output_desc, remark, tester_case_count, public_test_content, public_test_source, public_assert_count, language, creator_id, creator_role, manager_id)
+        values
+            (#{functionName}, #{className}, #{codeText}, #{inputDesc}, #{outputDesc}, #{remark}, #{testerCaseCount}, #{publicTestContent}, #{publicTestSource}, #{publicAssertCount}, #{language}, #{creatorId}, #{creatorRole}, #{managerId})
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into function_info
+        (function_name, class_name, code_text, input_desc, output_desc, remark, tester_case_count, public_test_content, public_test_source, public_assert_count, language, creator_id, creator_role, manager_id)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.functionName}, #{item.className}, #{item.codeText}, #{item.inputDesc}, #{item.outputDesc}, #{item.remark}, #{item.testerCaseCount}, #{item.publicTestContent}, #{item.publicTestSource}, #{item.publicAssertCount}, #{item.language}, #{item.creatorId}, #{item.creatorRole}, #{item.managerId})
+        </foreach>
+    </insert>
+
+    <select id="countDuplicate" parameterType="com.example.entity.FunctionInfo" resultType="java.lang.Integer">
+        select count(1)
+        from function_info
+        where function_name = #{functionName}
+          and class_name = #{className}
+          and language = #{language}
+          and code_text = #{codeText}
+          and ifnull(input_desc, '') = ifnull(#{inputDesc}, '')
+          and ifnull(output_desc, '') = ifnull(#{outputDesc}, '')
+          and ifnull(remark, '') = ifnull(#{remark}, '')
+          and ifnull(tester_case_count, 0) = ifnull(#{testerCaseCount}, 0)
+    </select>
+
+    <select id="findSameFunctionId" resultType="java.lang.Integer">
+        select id
+        from function_info
+        where function_name = #{functionName}
+          and MD5(TRIM(COALESCE(code_text, ''))) = MD5(TRIM(COALESCE(#{codeText}, '')))
+        limit 1
+    </select>
+
+    <update id="updatePublicTestInfo" parameterType="com.example.entity.FunctionInfo">
+        update function_info
+        set public_test_content = #{publicTestContent},
+            public_test_source = #{publicTestSource},
+            public_assert_count = #{publicAssertCount},
+            tester_case_count = case
+                when ifnull(tester_case_count, 0) = 0 then #{publicAssertCount}
+                else tester_case_count
+            end
+        where id = #{id}
+    </update>
+
+    <update id="updateById" parameterType="com.example.entity.FunctionInfo">
+        update function_info
+        set
+            function_name = #{functionName},
+            class_name = #{className},
+            language = #{language},
+            code_text = #{codeText},
+            input_desc = #{inputDesc},
+            output_desc = #{outputDesc},
+            remark = #{remark},
+            tester_case_count = #{testerCaseCount},
+            public_test_content = #{publicTestContent},
+            public_test_source = #{publicTestSource},
+            public_assert_count = #{publicAssertCount}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from function_info where id = #{id}
+    </delete>
+
+</mapper>

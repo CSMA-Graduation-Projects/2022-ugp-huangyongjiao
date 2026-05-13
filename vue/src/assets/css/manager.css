@@ -1,0 +1,187 @@
+.manager-container {
+    background-color: var(--theme-page-bg);
+    min-height: 100vh;
+    transition: background-color 0.25s ease;
+}
+
+.manager-header {
+    height: 60px;
+    background-color: var(--theme-header-bg);
+    display: flex;
+    align-items: center;
+    transition: background-color 0.25s ease;
+}
+
+.manager-header-left {
+    width: 420px;
+    height: 100%;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.manager-header-left img {
+    width: 55px;
+    height: 55px;
+    border-radius: 4px;
+}
+
+.manager-header-left .title {
+    flex: 1;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.manager-header-center {
+    flex: 1;
+    padding-left: 120px;
+}
+
+.manager-header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-right: 16px;
+}
+
+.manager-main-left {
+    width: 200px;
+    min-height: calc(100vh - 60px);
+    background-color: var(--theme-sidebar-bg);
+    transition: background-color 0.25s ease;
+}
+
+.manager-main-right {
+    flex: 1;
+    width: 0;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.manager-main-left .el-menu {
+    width: 100%;
+    border-right: none;
+    background-color: var(--theme-sidebar-bg);
+}
+
+.manager-main-left .el-menu-item {
+    background-color: var(--theme-menu-bg) !important;
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+}
+
+.manager-main-left .el-sub-menu__title {
+    background-color: var(--theme-menu-bg) !important;
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+}
+
+.manager-main-left .el-sub-menu .el-menu-item {
+    background-color: var(--theme-menu-sub-bg) !important;
+    color: #fff !important;
+    padding-left: 50px !important;
+}
+
+.manager-main-left .el-sub-menu .el-menu-item.center-menu-item {
+    justify-content: center;
+    text-align: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.manager-main-left .el-menu-item:hover,
+.manager-main-left .el-sub-menu__title:hover {
+    background-color: var(--theme-menu-hover-bg) !important;
+    color: #fff !important;
+}
+
+.manager-main-left .el-menu-item.is-active {
+    background-color: var(--theme-menu-bg) !important;
+    color: #fff !important;
+}
+
+.manager-main-left .el-menu-item.is-active span,
+.manager-main-left .el-menu-item.is-active i,
+.manager-main-left .el-menu-item.is-active .el-icon {
+    color: #fff !important;
+}
+
+.manager-main-left .el-sub-menu.is-opened > .el-sub-menu__title {
+    color: #fff !important;
+}
+
+.manager-main-left .el-sub-menu.is-opened > .el-sub-menu__title span,
+.manager-main-left .el-sub-menu.is-opened > .el-sub-menu__title i,
+.manager-main-left .el-sub-menu.is-opened > .el-sub-menu__title .el-icon {
+    color: #fff !important;
+}
+
+.manager-main-left .el-sub-menu .el-menu-item.is-active {
+    background-color: var(--theme-menu-active-bg) !important;
+    color: #fff !important;
+}
+
+.manager-main-left .el-sub-menu .el-menu-item.is-active span,
+.manager-main-left .el-sub-menu .el-menu-item.is-active i,
+.manager-main-left .el-sub-menu .el-menu-item.is-active .el-icon {
+    color: #fff !important;
+}
+
+.manager-main-left .el-sub-menu__title span,
+.manager-main-left .el-sub-menu__title i,
+.manager-main-left .el-sub-menu__title .el-icon {
+    color: #fff !important;
+}
+
+.card {
+    background-color: var(--theme-card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--theme-card-shadow);
+    padding: 12px;
+    box-sizing: border-box;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.manager-header-center .header-breadcrumb {
+    line-height: 60px;
+}
+
+.manager-header-center .header-breadcrumb .el-breadcrumb__inner,
+.manager-header-center .header-breadcrumb .el-breadcrumb__inner a,
+.manager-header-center .header-breadcrumb .el-breadcrumb__separator,
+.manager-header-center .header-breadcrumb .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.header-theme-btn {
+    --el-button-bg-color: rgba(255, 255, 255, 0.12);
+    --el-button-border-color: rgba(255, 255, 255, 0.28);
+    --el-button-text-color: #fff;
+    --el-button-hover-bg-color: rgba(255, 255, 255, 0.22);
+    --el-button-hover-border-color: rgba(255, 255, 255, 0.38);
+    --el-button-hover-text-color: #fff;
+    --el-button-active-bg-color: rgba(255, 255, 255, 0.18);
+    --el-button-active-border-color: rgba(255, 255, 255, 0.38);
+    --el-button-active-text-color: #fff;
+}
+
+.header-user {
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.header-user-name {
+    margin-left: 8px;
+    color: #fff;
+}

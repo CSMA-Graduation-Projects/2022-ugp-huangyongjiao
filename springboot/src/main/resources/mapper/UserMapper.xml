@@ -1,0 +1,115 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <select id="selectAll" resultType="com.example.entity.User">
+        select
+        u.id,
+        u.username,
+        u.password,
+        u.name,
+        u.avatar,
+        u.manager_id as managerId,
+        a.name as managerName,
+        u.phone,
+        u.email,
+        u.create_time as createTime
+        from user u
+        left join admin a on u.manager_id = a.id
+        <where>
+            <if test="username != null and username != ''">
+                and u.username like concat('%', #{username}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                and u.name like concat('%', #{name}, '%')
+            </if>
+            <if test="currentUserRole == 'ADMIN'">
+                and u.manager_id = #{currentUserId}
+            </if>
+            <if test="currentUserRole == 'USER'">
+                and u.id = #{currentUserId}
+            </if>
+        </where>
+        order by u.id desc
+    </select>
+
+    <select id="selectByManagerId" parameterType="java.lang.Integer" resultType="com.example.entity.User">
+        select
+            u.id,
+            u.username,
+            u.password,
+            u.name,
+            u.avatar,
+            u.manager_id as managerId,
+            a.name as managerName,
+            u.phone,
+            u.email,
+            u.create_time as createTime
+        from user u
+                 left join admin a on u.manager_id = a.id
+        where u.manager_id = #{managerId}
+        order by u.id desc
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.example.entity.User">
+        select
+            u.id,
+            u.username,
+            u.password,
+            u.name,
+            u.avatar,
+            u.manager_id as managerId,
+            a.name as managerName,
+            u.phone,
+            u.email,
+            u.create_time as createTime
+        from user u
+                 left join admin a on u.manager_id = a.id
+        where u.id = #{id}
+    </select>
+
+    <select id="selectByUsername" parameterType="java.lang.String" resultType="com.example.entity.User">
+        select
+            id,
+            username,
+            password,
+            name,
+            avatar,
+            manager_id as managerId,
+            phone,
+            email,
+            create_time as createTime
+        from user
+        where username = #{username}
+            limit 1
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user (username, password, name, avatar, manager_id, phone, email)
+        values (#{username}, #{password}, #{name}, #{avatar}, #{managerId}, #{phone}, #{email})
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.User">
+        update user
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="managerId != null">manager_id = #{managerId},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updatePassword" parameterType="com.example.entity.User">
+        update user
+        set password = #{password}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from user where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基于大语言模型的函数级代码测试用例生成系统用户手册</title>
+  <style>
+    :root {
+      --primary: #1f6b52;
+      --primary-dark: #164d3c;
+      --accent: #f4b544;
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #27313d;
+      --muted: #637083;
+      --line: #e6ebf2;
+      --code: #f3f5f7;
+      --tip: #eef8f3;
+      --warn: #fff8e8;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      padding: 42px 24px 46px;
+    }
+
+    .hero-inner,
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 13px;
+      margin-right: 8px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 10px 0 12px;
+      font-size: 34px;
+      line-height: 1.35;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 920px;
+      line-height: 1.9;
+      font-size: 15px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .container {
+      padding: 24px 20px 46px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      padding: 24px 26px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      color: var(--primary-dark);
+      border-left: 5px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    h3 {
+      margin: 20px 0 10px;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    p, li {
+      line-height: 1.9;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .muted { color: var(--muted); }
+    ul, ol { margin: 8px 0 0 22px; padding: 0; }
+
+    .tip, .warn {
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 12px;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    .tip {
+      background: var(--tip);
+      border-left: 4px solid #2b8d66;
+    }
+
+    .warn {
+      background: var(--warn);
+      border-left: 4px solid #d39a2b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 11px 12px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--primary-dark);
+      width: 180px;
+    }
+
+    code {
+      background: var(--code);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .toc-item {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 12px 0 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="badge">系统手册</span>
+      <span class="badge">函数级测试用例生成</span>
+      <span class="badge">大语言模型评估</span>
+      <h1>基于大语言模型的函数级代码测试用例生成系统用户手册</h1>
+      <p>
+        本手册用于指导系统用户完成账号登录、模型配置、函数信息维护、需求规格说明书录入、测试用例生成、自动评估、再次生成、历史记录导出等操作。
+        手册内容按照系统实际使用流程编写，适合作为日常使用说明、课程验收材料和系统演示辅助文档。
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>一、手册使用说明</h2>
+      <p>
+        本系统主要面向教师、学生、管理员以及测试相关使用者。系统围绕“函数级代码测试用例自动生成”这一核心场景设计，支持根据函数源码或需求规格说明书自动构造测试用例，并对生成结果进行质量评估。
+      </p>
+      <div class="toc">
+        <div class="toc-item"><strong>1.</strong> 系统概述与角色说明</div>
+        <div class="toc-item"><strong>2.</strong> 页面模块与核心功能</div>
+        <div class="toc-item"><strong>3.</strong> 详细操作流程</div>
+        <div class="toc-item"><strong>4.</strong> 生成、评估与再次生成说明</div>
+        <div class="toc-item"><strong>5.</strong> 生成记录导出规则</div>
+        <div class="toc-item"><strong>6.</strong> 常见问题与排查建议</div>
+      </div>
+      <div class="tip">
+        推荐使用顺序：<strong>登录系统 → 配置模型 → 维护函数或需求信息 → 进入用例生成 → 查看评估结果 → 必要时再次生成 → 在生成记录中导出结果</strong>。
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>二、系统概述</h2>
+      <p>
+        系统以大语言模型为基础，针对单个函数或明确的需求规格内容进行测试分析与用例生成。生成后，系统自动调用评估模型，从正常路径覆盖、边界条件覆盖、异常分支覆盖和语法规范性等维度对测试用例进行分析，并返回综合评分和改进建议。
+      </p>
+      <table>
+        <tr>
+          <th>系统名称</th>
+          <td>基于大语言模型的函数级代码测试用例生成系统</td>
+        </tr>
+        <tr>
+          <th>核心目标</th>
+          <td>提高函数级测试用例编写效率，辅助用户快速获得结构化、可读性较强的测试用例结果。</td>
+        </tr>
+        <tr>
+          <th>主要输入</th>
+          <td>函数名称、所属类名、函数代码、输入说明、输出说明、备注信息，或需求规格说明书相关内容。</td>
+        </tr>
+        <tr>
+          <th>主要输出</th>
+          <td>结构化测试用例、自动评估结果、综合评分、改进建议、历史生成记录、Excel 导出文件。</td>
+        </tr>
+        <tr>
+          <th>支持语言</th>
+          <td>测试用例支持中文或英文输出，评估语言随当前输出语言同步变化。</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>三、角色与权限说明</h2>
+      <table>
+        <tr>
+          <th>超级管理员</th>
+          <td>拥有最高权限，可查看并维护管理员信息、用户信息、模型配置、函数信息、需求规格说明书以及生成记录。</td>
+        </tr>
+        <tr>
+          <th>管理员</th>
+          <td>可维护自己及所属用户可见的数据，通常负责模型配置、函数管理、需求规格说明书管理和用户管理。</td>
+        </tr>
+        <tr>
+          <th>普通用户</th>
+          <td>可使用用例生成、查看生成记录、维护本人可见的函数和需求信息，使用已配置的模型进行生成与评估。</td>
+        </tr>
+      </table>
+      <div class="warn">
+        不同角色在页面菜单和数据可见范围上存在差异。若发现某些数据不可见，优先检查当前登录账号角色及数据归属关系。
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>四、系统模块说明</h2>
+      <table>
+        <tr><th>系统首页</th><td>展示系统概况、统计信息及图表内容，用于快速了解当前系统数据情况。</td></tr>
+        <tr><th>用例生成</th><td>选择模型、生成策略和输出语言，输入或带入函数/需求信息，完成测试用例生成、自动评估和再次生成。</td></tr>
+        <tr><th>生成记录</th><td>分页查看历史生成内容、评估分数与时间信息，并支持单条导出为 Excel 文件。</td></tr>
+        <tr><th>函数管理</th><td>对函数名称、所属类名、源码、输入输出说明和备注进行新增、编辑、删除与跳转生成。</td></tr>
+        <tr><th>需求规格说明书管理</th><td>维护需求名称、模块、需求描述、输入输出说明等内容，支持从需求出发生成测试用例。</td></tr>
+        <tr><th>模型配置</th><td>新增和维护模型名称、接口地址、密钥、温度系数、最大 Token 及启用状态，并选择默认评估模型。</td></tr>
+        <tr><th>账号管理</th><td>管理员信息和用户信息维护，便于区分不同角色与数据权限。</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>五、详细操作流程</h2>
+
+      <h3>1. 登录系统</h3>
+      <ol>
+        <li>打开系统登录页面，输入账号与密码。</li>
+        <li>登录成功后进入系统首页。</li>
+        <li>根据当前角色显示对应菜单项。</li>
+      </ol>
+
+      <h3>2. 配置生成模型与默认评估模型</h3>
+      <ol>
+        <li>进入 <strong>模型配置</strong> 页面。</li>
+        <li>点击 <strong>新增模型</strong>，填写模型名称、API 地址、API Key、温度系数、最大 Token、状态等信息。</li>
+        <li>保存后，将需要使用的模型状态设置为 <strong>启用</strong>。</li>
+        <li>在页面中选择一个已启用模型作为 <strong>默认评估模型</strong>。</li>
+      </ol>
+      <div class="tip">
+        生成模型和评估模型可以不是同一个。生成时由用户在用例生成页选择模型，评估时默认调用在模型配置页中设置的评估模型。
+      </div>
+
+      <h3>3. 维护函数信息</h3>
+      <ol>
+        <li>进入 <strong>函数管理</strong> 页面。</li>
+        <li>点击 <strong>新增函数</strong>。</li>
+        <li>依次填写函数名称、所属类名、语言、输入说明、输出说明、备注、函数代码等信息。</li>
+        <li>保存后可在列表中查看、修改、删除，或直接点击 <strong>生成测试用例</strong> 跳转到生成页。</li>
+      </ol>
+
+      <h3>4. 维护需求规格说明书</h3>
+      <ol>
+        <li>进入 <strong>需求规格说明书管理</strong> 页面。</li>
+        <li>新增需求并录入需求名称、模块、需求说明、输入与输出相关描述。</li>
+        <li>保存后可在列表中直接进入用例生成页面。</li>
+      </ol>
+
+      <h3>5. 生成测试用例</h3>
+      <ol>
+        <li>进入 <strong>用例生成</strong> 页面。</li>
+        <li>选择 <strong>模型</strong>、<strong>生成策略</strong> 和 <strong>输出语言</strong>。</li>
+        <li>确认当前页面中的函数或需求内容完整无误。</li>
+        <li>点击 <strong>生成测试用例</strong>。</li>
+        <li>右侧先显示生成结果，随后展示自动评估结果。</li>
+      </ol>
+
+      <h3>6. 再次生成</h3>
+      <ol>
+        <li>当右侧评估结果展示完成后，页面会显示 <strong>再次生成</strong> 按钮。</li>
+        <li>点击该按钮后，系统会结合首轮生成结果与评估建议重新生成测试用例。</li>
+        <li>再次生成结束后会重新触发自动评估。</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>六、生成与评估说明</h2>
+
+      <h3>1. 生成策略说明</h3>
+      <table>
+        <tr><th>普通生成</th><td>直接根据输入内容构造测试用例，生成速度较快，适合一般函数场景。</td></tr>
+        <tr><th>链式分析生成</th><td>在生成前引导模型对控制流、边界值、异常分支进行分析，适合逻辑较复杂的函数场景。</td></tr>
+      </table>
+
+      <h3>2. 输出语言说明</h3>
+      <p>
+        若用户在页面中选择中文，则测试用例和评估结果均以中文返回；若选择英文，则测试用例和评估结果均以英文返回。评估语言与输出语言保持一致，便于整体阅读和导出使用。
+      </p>
+
+      <h3>3. 评估维度说明</h3>
+      <table>
+        <tr><th>综合评分</th><td>对当前测试用例整体质量的总结性打分。</td></tr>
+        <tr><th>正常路径覆盖</th><td>是否覆盖主要业务流程和常规输入场景。</td></tr>
+        <tr><th>边界条件覆盖</th><td>是否覆盖边界值、阈值点和临界输入。</td></tr>
+        <tr><th>异常分支覆盖</th><td>是否覆盖空值、非法值、异常抛出等非正常流程。</td></tr>
+        <tr><th>语法规范性</th><td>是否符合系统约定的输出结构与表述规范。</td></tr>
+        <tr><th>改进建议</th><td>对缺失场景、表达问题和补充方向的说明，可作为再次生成依据。</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>七、生成记录与导出说明</h2>
+      <ol>
+        <li>进入 <strong>生成记录</strong> 页面，可分页查看历史生成数据。</li>
+        <li>页面中展示编号、来源类型、名称、模型名称、生成策略、生成结果、大模型评估、测试人员评估分数、生成时间等内容。</li>
+        <li>点击单条记录右侧的 <strong>导出</strong> 按钮，可将该条记录中的测试用例导出为 Excel 文件。</li>
+        <li>导出内容优先按“用例编号、测试目的、输入数据、执行步骤、预期结果”结构解析。若解析失败，则按原始文本逐行导出，保证导出功能可用。</li>
+      </ol>
+      <div class="tip">
+        生成记录页当前采用分页展示，便于集中浏览与单条导出。若历史记录较多，可结合分页器逐页查看。
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>八、页面顶部功能说明</h2>
+      <table>
+        <tr><th>用户手册</th><td>用于在线查看当前系统手册，也可由浏览器执行下载或另存为操作。</td></tr>
+        <tr><th>主题切换</th><td>用于切换系统配色主题，满足不同展示场景和个人使用习惯。</td></tr>
+        <tr><th>当前用户信息</th><td>显示当前登录账号身份，用于区分超级管理员、管理员或普通用户。</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>九、常见问题与处理建议</h2>
+
+      <h3>1. 页面没有可选模型</h3>
+      <p>请检查模型配置页面中是否已经新增模型，并将模型状态设置为启用。</p>
+
+      <h3>2. 点击生成后没有返回结果</h3>
+      <p>请检查模型接口地址、API Key、网络环境以及后端服务是否正常运行。</p>
+
+      <h3>3. 自动评估失败</h3>
+      <p>请检查默认评估模型是否已正确选择，模型是否启用，接口是否返回正常内容。</p>
+
+      <h3>4. 再次生成按钮未显示</h3>
+      <p>请确认当前页面已经完成自动评估并成功展示评估结果。若仍未显示，建议刷新页面并重新执行一次生成流程。</p>
+
+      <h3>5. 导出内容格式不完整</h3>
+      <p>系统会优先解析结构化测试用例文本。若模型输出格式差异较大，导出会退回为逐行导出模式。</p>
+
+      <h3>6. 某些数据页面中不可见</h3>
+      <p>请检查当前登录账号角色以及数据所属关系，不同角色能看到的数据范围不同。</p>
+    </div>
+
+    <div class="card">
+      <h2>十、使用建议</h2>
+      <ul>
+        <li>在录入函数或需求时，输入说明、输出说明和备注越完整，生成结果通常越稳定。</li>
+        <li>对于存在多重折扣、复杂条件判断、异常抛出逻辑的函数，更适合使用链式分析生成。</li>
+        <li>在自动评估完成后，可根据改进建议决定是否执行再次生成，减少重复性操作。</li>
+        <li>建议定期在生成记录中导出关键结果，便于后续整理实验数据或撰写论文材料。</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      基于大语言模型的函数级代码测试用例生成系统 · 用户手册
+    </div>
+  </div>
+</body>
+</html>

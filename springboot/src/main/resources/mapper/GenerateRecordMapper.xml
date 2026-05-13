@@ -1,0 +1,174 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.GenerateRecordMapper">
+
+    <select id="selectAll" resultType="com.example.entity.GenerateRecord">
+        select
+        id,
+        function_id as functionId,
+        function_name as functionName,
+        source_type as sourceType,
+        prompt_text as promptText,
+        result_text as resultText,
+        model_name as modelName,
+        prompt_tokens as promptTokens,
+        completion_tokens as completionTokens,
+        total_tokens as totalTokens,
+        latency_ms as latencyMs,
+        strategy,
+        run_index as runIndex,
+        previous_record_id as previousRecordId,
+        creator_id as creatorId,
+        creator_role as creatorRole,
+        manager_id as managerId,
+        create_time as createTime,
+        evaluation_score as evaluationScore,
+        normal_path_coverage as normalPathCoverage,
+        boundary_coverage as boundaryCoverage,
+        exception_coverage as exceptionCoverage,
+        syntax_norm as syntaxNorm,
+        suggestion_text as suggestionText,
+        tester_case_count as testerCaseCount,
+        llm_case_count as llmCaseCount,
+        tester_evaluation_score as testerEvaluationScore,
+        line_coverage as lineCoverage,
+        branch_coverage as branchCoverage,
+        coverage_status as coverageStatus,
+        coverage_message as coverageMessage,
+        public_compare_result as publicCompareResult,
+        public_covered_count as publicCoveredCount,
+        public_partial_count as publicPartialCount,
+        public_missing_count as publicMissingCount,
+        public_extra_result as publicExtraResult,
+        generated_case_count as generatedCaseCount,
+        public_matched_case_count as publicMatchedCaseCount,
+        public_extra_case_count as publicExtraCaseCount,
+        public_invalid_case_count as publicInvalidCaseCount,
+        public_extra_rate as publicExtraRate,
+        public_expand_rate as publicExpandRate
+        from generate_record
+        <where>
+            <if test="functionName != null and functionName != ''">
+                and function_name like concat('%', #{functionName}, '%')
+            </if>
+            <if test="modelName != null and modelName != ''">
+                and model_name like concat('%', #{modelName}, '%')
+            </if>
+            <if test="strategy != null and strategy != ''">
+                and strategy = #{strategy}
+            </if>
+
+            <if test="currentUserRole == 'ADMIN'">
+                and (
+                (creator_role = 'ADMIN' and creator_id = #{currentUserId})
+                or (creator_role = 'USER' and manager_id = #{currentUserId})
+                )
+            </if>
+
+            <if test="currentUserRole == 'USER'">
+                and (
+                creator_role = 'USER'
+                and creator_id = #{currentUserId}
+                )
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.example.entity.GenerateRecord">
+        select
+            id,
+            function_id as functionId,
+            function_name as functionName,
+            source_type as sourceType,
+            prompt_text as promptText,
+            result_text as resultText,
+            model_name as modelName,
+            prompt_tokens as promptTokens,
+            completion_tokens as completionTokens,
+            total_tokens as totalTokens,
+            latency_ms as latencyMs,
+            strategy,
+            run_index as runIndex,
+            previous_record_id as previousRecordId,
+            creator_id as creatorId,
+            creator_role as creatorRole,
+            manager_id as managerId,
+            create_time as createTime,
+            evaluation_score as evaluationScore,
+            normal_path_coverage as normalPathCoverage,
+            boundary_coverage as boundaryCoverage,
+            exception_coverage as exceptionCoverage,
+            syntax_norm as syntaxNorm,
+            suggestion_text as suggestionText,
+            tester_case_count as testerCaseCount,
+            llm_case_count as llmCaseCount,
+            tester_evaluation_score as testerEvaluationScore,
+            line_coverage as lineCoverage,
+            branch_coverage as branchCoverage,
+            coverage_status as coverageStatus,
+            coverage_message as coverageMessage,
+            public_compare_result as publicCompareResult,
+            public_covered_count as publicCoveredCount,
+            public_partial_count as publicPartialCount,
+            public_missing_count as publicMissingCount,
+            public_extra_result as publicExtraResult,
+            generated_case_count as generatedCaseCount,
+            public_matched_case_count as publicMatchedCaseCount,
+            public_extra_case_count as publicExtraCaseCount,
+            public_invalid_case_count as publicInvalidCaseCount,
+            public_extra_rate as publicExtraRate,
+            public_expand_rate as publicExpandRate
+        from generate_record
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.GenerateRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into generate_record
+        (function_id, function_name, source_type, prompt_text, result_text, model_name, prompt_tokens, completion_tokens, total_tokens, latency_ms, strategy, run_index, previous_record_id, creator_id, creator_role, manager_id, evaluation_score, normal_path_coverage, boundary_coverage, exception_coverage, syntax_norm, suggestion_text, tester_case_count, llm_case_count, tester_evaluation_score, line_coverage, branch_coverage, coverage_status, coverage_message)
+        values
+            (#{functionId}, #{functionName}, #{sourceType}, #{promptText}, #{resultText}, #{modelName}, #{promptTokens}, #{completionTokens}, #{totalTokens}, #{latencyMs}, #{strategy}, #{runIndex}, #{previousRecordId}, #{creatorId}, #{creatorRole}, #{managerId}, #{evaluationScore}, #{normalPathCoverage}, #{boundaryCoverage}, #{exceptionCoverage}, #{syntaxNorm}, #{suggestionText}, #{testerCaseCount}, #{llmCaseCount}, #{testerEvaluationScore}, #{lineCoverage}, #{branchCoverage}, #{coverageStatus}, #{coverageMessage})
+    </insert>
+
+    <update id="updateEvaluationDetail" parameterType="com.example.entity.GenerateRecord">
+        update generate_record
+        set evaluation_score = #{evaluationScore},
+            normal_path_coverage = #{normalPathCoverage},
+            boundary_coverage = #{boundaryCoverage},
+            exception_coverage = #{exceptionCoverage},
+            syntax_norm = #{syntaxNorm},
+            suggestion_text = #{suggestionText}
+        where id = #{id}
+    </update>
+
+    <update id="updateCoverage" parameterType="com.example.entity.GenerateRecord">
+        update generate_record
+        set line_coverage = #{lineCoverage},
+            branch_coverage = #{branchCoverage},
+            coverage_status = #{coverageStatus},
+            coverage_message = #{coverageMessage}
+        where id = #{id}
+    </update>
+
+    <update id="updatePublicCompareResult" parameterType="com.example.entity.GenerateRecord">
+        update generate_record
+        set public_compare_result = #{publicCompareResult},
+            public_covered_count = #{publicCoveredCount},
+            public_partial_count = #{publicPartialCount},
+            public_missing_count = #{publicMissingCount},
+            public_extra_result = #{publicExtraResult},
+            generated_case_count = #{generatedCaseCount},
+            public_matched_case_count = #{publicMatchedCaseCount},
+            public_extra_case_count = #{publicExtraCaseCount},
+            public_invalid_case_count = #{publicInvalidCaseCount},
+            public_extra_rate = #{publicExtraRate},
+            public_expand_rate = #{publicExpandRate}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from generate_record where id = #{id}
+    </delete>
+
+</mapper>

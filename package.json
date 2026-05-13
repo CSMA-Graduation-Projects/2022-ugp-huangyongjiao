@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "sass": "^1.83.0",
+    "unplugin-auto-import": "^0.19.0",
+    "unplugin-element-plus": "^0.8.0",
+    "unplugin-vue-components": "^0.28.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.9"
+  }
+}

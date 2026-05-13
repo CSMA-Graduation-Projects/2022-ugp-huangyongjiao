@@ -1,0 +1,34 @@
+server:
+  port: 7070
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: your-username
+    password: your-password
+    url: jdbc:mysql://localhost:3306/system?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+      encoding: UTF-8
+      schema-locations:
+        - classpath:sql/function_info_tester_case_count.sql
+        - classpath:sql/generate_record_iteration_columns.sql
+        - classpath:sql/generate_record_evaluation_detail.sql
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+deepseek:
+  api-key: your-deepseek-api-key
+  base-url: https://api.deepseek.com
+  chat-model: deepseek-reasoner
+
+coverage:
+  python-command: python
+  timeout-seconds: 10
